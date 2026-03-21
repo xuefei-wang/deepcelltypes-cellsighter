@@ -35,7 +35,7 @@ def train_one_epoch(
     optimizer: torch.optim.Optimizer,
     device: torch.device,
     label_remap: torch.Tensor,
-    num_markers: int = 271,
+    num_markers: int = 269,
     scaler: torch.amp.GradScaler | None = None,
     amp_dtype: torch.dtype | None = None,
 ) -> float:
@@ -103,7 +103,7 @@ def evaluate(
     dataloader: DataLoader,
     device: torch.device,
     label_remap: torch.Tensor,
-    num_markers: int = 271,
+    num_markers: int = 269,
     amp_dtype: torch.dtype | None = None,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, List[str], List[str], List[int]]:
     """

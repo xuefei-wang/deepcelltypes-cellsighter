@@ -86,7 +86,7 @@ def convert_batch_for_cellsighter(
 
     Args:
         batch_data: BatchData instance
-        num_markers: Total number of unique markers (271)
+        num_markers: Total number of unique markers (269)
 
     Returns:
         cellsighter_input: (B, num_markers+2, H, W) - [globally aligned channels, cell mask, neighbor mask]
@@ -100,7 +100,7 @@ def convert_batch_for_cellsighter(
     raw_patches = raw_patches.masked_fill(masks_expanded, 0.0)
 
     # Scatter to globally aligned positions using ch_idx
-    # ch_idx: (B, 75), values are global marker indices (0-270) or -1 for padding
+    # ch_idx: (B, 75), values are global marker indices (0-268) or -1 for padding
     ch_idx = batch_data.ch_idx  # (B, C_max)
     valid = ch_idx >= 0  # (B, C_max)
 

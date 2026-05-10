@@ -380,9 +380,9 @@ def main(
                 model, test_loader, device, label_remap, num_markers,
                 amp_dtype=amp_dtype,
             )
+            # No hierarchy collapse — canonical CellSighter eval is flat per-class accuracy
             metrics = compute_baseline_metrics(
                 y_true, y_pred, y_prob, num_classes,
-                hierarchy=CELL_TYPE_HIERARCHY, ct2idx=compact_ct2idx,
             )
 
             print(f"  Test Macro Accuracy: {metrics['macro_accuracy']:.4f}")
@@ -431,9 +431,9 @@ def main(
         model, test_loader, device, label_remap, num_markers=num_markers,
         amp_dtype=amp_dtype,
     )
+    # No hierarchy collapse — canonical CellSighter eval is flat per-class accuracy
     metrics = compute_baseline_metrics(
         y_true_compact, y_pred_compact, y_prob_compact, num_classes,
-        hierarchy=CELL_TYPE_HIERARCHY, ct2idx=compact_ct2idx,
     )
 
     print(f"\nFinal Test Results:")

@@ -380,13 +380,16 @@ def main(
                 model, test_loader, device, label_remap, num_markers,
                 amp_dtype=amp_dtype,
             )
-            # No hierarchy collapse — canonical CellSighter eval is flat per-class accuracy
+            # Shared hierarchy collapse (Tcell + Stromal) — matches main model
             metrics = compute_baseline_metrics(
                 y_true, y_pred, y_prob, num_classes,
+                hierarchy=CELL_TYPE_HIERARCHY, ct2idx=compact_ct2idx,
             )
 
             print(f"  Test Macro Accuracy: {metrics['macro_accuracy']:.4f}")
             print(f"  Test Weighted Accuracy: {metrics['weighted_accuracy']:.4f}")
+            print(f"  Test Macro F1: {metrics['macro_f1']:.4f}")
+            print(f"  Test Weighted F1: {metrics['weighted_f1']:.4f}")
 
             # Log to wandb
             if enable_wandb:
@@ -395,6 +398,8 @@ def main(
                     "train/loss": train_loss,
                     "test/macro_accuracy": metrics["macro_accuracy"],
                     "test/weighted_accuracy": metrics["weighted_accuracy"],
+                    "test/macro_f1": metrics["macro_f1"],
+                    "test/weighted_f1": metrics["weighted_f1"],
                 })
 
             # Save best model
@@ -431,14 +436,17 @@ def main(
         model, test_loader, device, label_remap, num_markers=num_markers,
         amp_dtype=amp_dtype,
     )
-    # No hierarchy collapse — canonical CellSighter eval is flat per-class accuracy
+    # Shared hierarchy collapse (Tcell + Stromal) — matches main model
     metrics = compute_baseline_metrics(
         y_true_compact, y_pred_compact, y_prob_compact, num_classes,
+        hierarchy=CELL_TYPE_HIERARCHY, ct2idx=compact_ct2idx,
     )
 
     print(f"\nFinal Test Results:")
     print(f"  Macro Accuracy: {metrics['macro_accuracy']:.4f}")
     print(f"  Weighted Accuracy: {metrics['weighted_accuracy']:.4f}")
+    print(f"  Macro F1: {metrics['macro_f1']:.4f}")
+    print(f"  Weighted F1: {metrics['weighted_f1']:.4f}")
     print(f"  Best Macro Accuracy: {best_macro_acc:.4f}")
 
     # Log final metrics to wandb
@@ -446,6 +454,8 @@ def main(
         wandb.log({
             "final/macro_accuracy": metrics["macro_accuracy"],
             "final/weighted_accuracy": metrics["weighted_accuracy"],
+            "final/macro_f1": metrics["macro_f1"],
+            "final/weighted_f1": metrics["weighted_f1"],
             "final/best_macro_accuracy": best_macro_acc,
         })
 

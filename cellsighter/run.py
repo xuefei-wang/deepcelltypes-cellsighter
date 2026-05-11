@@ -21,9 +21,11 @@ from torch.utils.data import DataLoader
 # Default data directory from environment
 DATA_DIR = Path(os.environ.get("DATA_DIR", "/data2"))
 
-from deepcelltypes.config import TissueNetConfig, CELL_TYPE_HIERARCHY
-from deepcelltypes.dataset import create_dataloader
-from deepcelltypes.utils import BatchData, compute_baseline_metrics, save_baseline_predictions, build_label_remap
+from deepcell_types.training.config import TissueNetConfig, CELL_TYPE_HIERARCHY
+from deepcell_types.training.dataset import create_dataloader
+from deepcell_types.training.utils import BatchData
+from deepcell_types.training.baseline_features import compute_baseline_metrics, save_baseline_predictions
+from deepcell_types.training.metrics import build_label_remap
 
 from cellsighter.model import CellSighterModel, convert_batch_for_cellsighter
 

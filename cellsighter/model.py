@@ -11,7 +11,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
 
-from deepcelltypes.utils import BatchData
+from deepcell_types.training.utils import BatchData
 
 
 class CellSighterModel(nn.Module):

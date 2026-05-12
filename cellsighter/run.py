@@ -181,7 +181,7 @@ def evaluate(
 @click.option(
     "--zarr_dir",
     type=str,
-    default=str(DATA_DIR / "tissuenet-caitlin-labels.zarr"),
+    default=str(DATA_DIR),
 )
 @click.option(
     "--skip_datasets",
@@ -361,7 +361,9 @@ def main(
 
     # Training loop
     print("\nTraining CellSighter model...")
-    best_macro_acc = 0.0
+    # Use -inf so the first val pass always wins, even if macro_accuracy is exactly 0
+    # (happens on smoke runs that don't train long enough to predict the majority class).
+    best_macro_acc = float("-inf")
     model_path = Path(f"models/cellsighter_{model_name}.pth")
 
     for epoch in range(epochs):
